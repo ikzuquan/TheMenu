@@ -12,7 +12,7 @@
 
 <?php } ?>
 	<p>
-    <?php echo anchor("users/create_user", lang('index_create_user_link'), 'class="btn btn-primary"') ;?>
+    <?php echo anchor("companies/create_company", 'Create Company', 'class="btn btn-primary"') ;?>
   </p>
   
 
@@ -26,40 +26,33 @@
                 <table class="table table-striped table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
-                      <th><?php echo lang('index_fname_th');?></th>
-                      <th><?php echo lang('index_lname_th');?></th>
-                      <th><?php echo lang('index_email_th');?></th>
-                      <th><?php echo lang('index_company_th');?></th>
-                      <th><?php echo lang('index_status_th');?></th>
-                      <th><?php echo lang('index_groups_th');?></th>
-                      <th><?php echo lang('index_action_th');?></th>
+                      <th>Company Name</th>
+                      <th>SSM No</th>
+                      <th>Hotline</th>
+                      <th>Created Date</th>
+                      <th>Active</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tfoot>
                     <tr>
-                      <th><?php echo lang('index_fname_th');?></th>
-                      <th><?php echo lang('index_lname_th');?></th>
-                      <th><?php echo lang('index_email_th');?></th>
-                      <th><?php echo lang('index_company_th');?></th>
-                      <th><?php echo lang('index_status_th');?></th>
-                      <th><?php echo lang('index_groups_th');?></th>
-                      <th><?php echo lang('index_action_th');?></th>
+                      <th>Company Name</th>
+                      <th>SSM No</th>
+                      <th>Hotline</th>
+                      <th>Created Date</th>
+                      <th>Active</th>
+                      <th>Action</th>
                     </tr>
                   </tfoot>
                   <tbody>
-				  <?php foreach ($users as $user):?>
+				  <?php foreach ($companies as $company):?>
 						<tr>
-							<td><?php echo htmlspecialchars($user->first_name,ENT_QUOTES,'UTF-8');?></td>
-							<td><?php echo htmlspecialchars($user->last_name,ENT_QUOTES,'UTF-8');?></td>
-              <td><?php echo htmlspecialchars($user->email,ENT_QUOTES,'UTF-8');?></td>
-              <td><?php echo htmlspecialchars($user->company,ENT_QUOTES,'UTF-8');?></td>
-              <td><?php echo ($user->active) ? lang('index_active_link') : lang('index_inactive_link');?></td>
-							<td>
-								<?php foreach ($user->groups as $group):?>
-									<?php echo htmlspecialchars($group->name,ENT_QUOTES,'UTF-8') ;?><br />
-								<?php endforeach?>
-							</td>
-							<td><?php echo anchor("users/edit_user/".$user->id, 'Edit') ;?></td>
+							<td><?php echo htmlspecialchars($company["company_name"],ENT_QUOTES,'UTF-8');?></td>
+							<td><?php echo htmlspecialchars($company["ssm_no"],ENT_QUOTES,'UTF-8');?></td>
+              <td><?php echo htmlspecialchars($company["hotline"],ENT_QUOTES,'UTF-8');?></td>
+              <td><?php echo htmlspecialchars($company["created_date"],ENT_QUOTES,'UTF-8');?></td>
+              <td><?php echo ($company["active"]) ? lang('index_active_link') : lang('index_inactive_link');?></td>
+							<td><?php echo anchor("companies/edit_company/".$company["id"], 'Edit') ;?></td>
 						</tr>
 					<?php endforeach;?>
 

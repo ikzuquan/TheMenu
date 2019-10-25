@@ -53,8 +53,8 @@
       </p>
 
       <p>
-            <?php echo lang('edit_user_password_confirm_label', 'password_confirm');?> <br />
-            <?php echo form_dropdown($status["name"], $status["data"], $status["value"]);?>
+            "Active Membership" <br />
+            <?php echo form_dropdown($status["name"], $status["data"], $status["value"], 'class="form-control"');?>
       </p>
       <?php if ($this->ion_auth->is_admin()): ?>
 

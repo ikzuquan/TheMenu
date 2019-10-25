@@ -1,7 +1,7 @@
 <!-- Begin Page Content -->
 <div class="container">
-<h1  class="h3 mb-4 text-gray-800"><?php echo lang('create_user_heading');?></h1>
-<p><?php echo lang('create_user_subheading');?></p>
+<h1  class="h3 mb-4 text-gray-800">Create Company</h1>
+<p>Please enter the company's information below.</p>
 
 <?php if($message!=""){ ?>
       <div class="alert alert-info alert-dismissible" role="alert">
@@ -14,59 +14,32 @@
 
 <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">User's Information</h6>
+              <h6 class="m-0 font-weight-bold text-primary">Company's Information</h6>
             </div>
             <div class="card-body">
-    <?php echo form_open("users/create_user");?>
+    <?php echo form_open("companies/create_company");?>
 
       <p>
-            <?php echo lang('create_user_fname_label', 'first_name');?> <br />
-            <?php echo form_input($first_name);?>
+            Company Name <br />
+            <?php echo form_input($company_name);?>
       </p>
 
       <p>
-            <?php echo lang('create_user_lname_label', 'last_name');?> <br />
-            <?php echo form_input($last_name);?>
+            SSM Number <br />
+            <?php echo form_input($ssm_no);?>
       </p>
       
-      <?php
-      if($identity_column!=='email') {
-          echo '<p>';
-          echo lang('create_user_identity_label', 'identity');
-          echo '<br />';
-          echo form_error('identity');
-          echo form_input($identity);
-          echo '</p>';
-      }
-      ?>
-
       <p>
-            <?php echo lang('create_user_company_label', 'company');?> <br />
-            <?php echo form_input($company);?>
+            Company Address <br />
+            <?php echo form_input($address);?>
       </p>
 
       <p>
-            <?php echo lang('create_user_email_label', 'email');?> <br />
-            <?php echo form_input($email);?>
+            Company Hotline <br />
+            <?php echo form_input($hotline);?>
       </p>
 
-      <p>
-            <?php echo lang('create_user_phone_label', 'phone');?> <br />
-            <?php echo form_input($phone);?>
-      </p>
-
-      <p>
-            <?php echo lang('create_user_password_label', 'password');?> <br />
-            <?php echo form_input($password);?>
-      </p>
-
-      <p>
-            <?php echo lang('create_user_password_confirm_label', 'password_confirm');?> <br />
-            <?php echo form_input($password_confirm);?>
-      </p>
-
-
-      <p><input type="submit" value="<?php echo lang('create_user_submit_btn'); ?>" name="submit" class="btn btn-primary btn-user "/>
+      <p><input type="submit" value="Create Company" name="submit" class="btn btn-primary btn-user "/>
         </p>
               
 

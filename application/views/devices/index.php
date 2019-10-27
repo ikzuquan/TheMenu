@@ -12,47 +12,54 @@
 
 <?php } ?>
 	<p>
-    <?php echo anchor("companies/create_company", 'Create Company', 'class="btn btn-primary"') ;?>
+    <?php echo anchor("devices/create_device", 'Create Device', 'class="btn btn-primary"') ;?>
   </p>
   
 
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Companies</h6>
+              <h6 class="m-0 font-weight-bold text-primary">Devices</h6>
             </div>
             <div class="card-body">
               <div class="table-responsive">
                 <table class="table table-striped table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
-                      <th>Company Name</th>
-                      <th>SSM No</th>
-                      <th>Hotline</th>
-                      <th>Created Date</th>
+                      <th>Company</th>
+                      <th>Mac Address</th>
+                      <th>PIC info</th>
+                      <th>Retail info</th>
                       <th>Active</th>
-                      <th>Action</th>
+                      <th>Created Date</th>
                     </tr>
                   </thead>
                   <tfoot>
                     <tr>
-                      <th>Company Name</th>
-                      <th>SSM No</th>
-                      <th>Hotline</th>
-                      <th>Created Date</th>
+                      <th>Company</th>
+                      <th>Mac Address</th>
+                      <th>PIC info</th>
+                      <th>Retail info</th>
                       <th>Active</th>
-                      <th>Action</th>
+                      <th>Created Date</th>
                     </tr>
                   </tfoot>
                   <tbody>
-				  <?php foreach ($companies as $company):?>
+				  <?php foreach ($devices as $device):?>
 						<tr>
-							<td><?php echo htmlspecialchars($company["company_name"],ENT_QUOTES,'UTF-8');?></td>
-							<td><?php echo htmlspecialchars($company["ssm_no"],ENT_QUOTES,'UTF-8');?></td>
-              <td><?php echo htmlspecialchars($company["hotline"],ENT_QUOTES,'UTF-8');?></td>
-              <td><?php echo htmlspecialchars($company["created_date"],ENT_QUOTES,'UTF-8');?></td>
-              <td><?php echo ($company["active"]) ? lang('index_active_link') : lang('index_inactive_link');?></td>
-							<td><?php echo anchor("companies/edit_company/".$company["id"], 'Edit') ;?></td>
+              <td><?php echo empty($device["company_id"]->company_name) ? '' : htmlspecialchars($device["company_id"]->company_name,ENT_QUOTES,'UTF-8'); ?></td>
+              
+							<td><?php echo htmlspecialchars($device["mac_address"],ENT_QUOTES,'UTF-8');?></td>
+              <td>
+                <?php echo htmlspecialchars($device["pic_name"],ENT_QUOTES,'UTF-8');?><br>
+                <?php echo htmlspecialchars($device["pic_contact"],ENT_QUOTES,'UTF-8');?>
+              </td>
+              <td>
+                <?php echo htmlspecialchars($device["installation_address"],ENT_QUOTES,'UTF-8');?><br>
+                <?php echo htmlspecialchars($device["working_day"],ENT_QUOTES,'UTF-8');?>
+              </td>
+              <td><?php echo ($device["active"]) ? lang('index_active_link') : lang('index_inactive_link');?></td>
+							<td><?php echo anchor("devices/edit_device/".$device["id"], 'Edit') ;?></td>
 						</tr>
 					<?php endforeach;?>
 

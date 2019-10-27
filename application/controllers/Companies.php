@@ -154,15 +154,15 @@ class Companies extends CI_Controller {
 		
 		//check if company's email changed
 		if($company->company_name != $this->input->post('company_name')){
-			$this->form_validation->set_rules('company_name', "Company Name", 'trim|required');
+			$this->form_validation->set_rules('company_name', "Company Name", 'trim|required|strtoupper|is_unique[companies.company_name]');
 		}
 
 		if($company->ssm_no != $this->input->post('ssm_no')){
-			$this->form_validation->set_rules('ssm_no', "SSM No", 'trim|required');
+			$this->form_validation->set_rules('ssm_no', "SSM No", 'trim|required|strtoupper|is_unique[companies.ssm_no]');
 		}
 
-		$this->form_validation->set_rules('address', "Address", 'trim|required');
-		$this->form_validation->set_rules('hotline', "Hotline", 'trim|required');
+		$this->form_validation->set_rules('address', "Address", 'trim|required|strtoupper');
+		$this->form_validation->set_rules('hotline', "Hotline", 'trim|required|strtoupper');
 		
 		if (isset($_POST) && !empty($_POST))
 		{

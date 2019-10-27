@@ -38,7 +38,7 @@
       </p>
 
       <p>
-            <?php echo lang('edit_user_password_confirm_label', 'password_confirm');?> <br />
+           Active Company <br />
             <?php echo form_dropdown($status["name"], $status["data"], $status["value"], 'class="form-control"');?>
       </p>
 

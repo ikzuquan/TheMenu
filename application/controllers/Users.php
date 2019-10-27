@@ -156,6 +156,7 @@ class Users extends CI_Controller {
 			{
 				$CompanyArray[$company["id"]] = $company["company_name"];
 			}
+			$CompanyArray[NULL] = NULL;
 			
 			$this->data['company'] = [
 				'name' => 'company',

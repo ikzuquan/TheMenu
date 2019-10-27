@@ -68,10 +68,10 @@ class Companies extends CI_Controller {
 		}
 
 		// validate form input
-		$this->form_validation->set_rules('company_name', "Company Name", 'trim|required');
-		$this->form_validation->set_rules('ssm_no', "SSM No", 'trim|required');
-		$this->form_validation->set_rules('address', "Address", 'trim|required');
-		$this->form_validation->set_rules('hotline', "Hotline", 'trim|required');
+		$this->form_validation->set_rules('company_name', "Company Name", 'trim|required|strtoupper|is_unique[companies.company_name]');
+		$this->form_validation->set_rules('ssm_no', "SSM No", 'trim|required|strtoupper|is_unique[companies.ssm_no]');
+		$this->form_validation->set_rules('address', "Address", 'trim|required|strtoupper');
+		$this->form_validation->set_rules('hotline', "Hotline", 'trim|required|strtoupper');
 		
 		if ($this->form_validation->run() === TRUE)
 		{

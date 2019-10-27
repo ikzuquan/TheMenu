@@ -29,7 +29,7 @@
 
       <p>
             <?php echo lang('edit_user_company_label', 'company');?> <br />
-            <?php echo form_input($company);?>
+            <?php echo form_dropdown($company["name"], $company["data"], $company["value"], 'class="form-control"');?>
       </p>
 
       <p>
@@ -53,7 +53,7 @@
       </p>
 
       <p>
-            "Active Membership" <br />
+            Active Membership <br />
             <?php echo form_dropdown($status["name"], $status["data"], $status["value"], 'class="form-control"');?>
       </p>
       <?php if ($this->ion_auth->is_admin()): ?>

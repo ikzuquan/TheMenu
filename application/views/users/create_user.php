@@ -42,7 +42,7 @@
 
       <p>
             <?php echo lang('create_user_company_label', 'company');?> <br />
-            <?php echo form_input($company);?>
+            <?php echo form_dropdown($company["name"], $company["data"], NULL, 'class="form-control"');?>
       </p>
 
       <p>

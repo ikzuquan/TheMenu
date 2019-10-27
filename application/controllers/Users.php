@@ -25,6 +25,7 @@ class Users extends CI_Controller {
         $this->load->database();
 		$this->load->library(['ion_auth', 'form_validation']);
 		$this->load->helper(['url', 'language']);
+		$this->load->model('companies_model');
 
 		$this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
 
@@ -49,7 +50,9 @@ class Users extends CI_Controller {
 
 		foreach ($this->data['users'] as $k => $user)
 		{
+			
 			$this->data['users'][$k]->groups = $this->ion_auth->get_users_groups($user->id)->result();
+			$this->data['users'][$k]->company = $this->companies_model->get_companies($user->company);
 		}
 			
         $this->load->view('templates' . DIRECTORY_SEPARATOR . 'header', $this->data);
@@ -147,12 +150,17 @@ class Users extends CI_Controller {
 				'class' => 'form-control form-control-user',
 				'value' => $this->form_validation->set_value('email'),
 			];
+			$company_data = $this->companies_model->get_companies(false, 'company_name');
+			$CompanyArray = array();
+			foreach ($company_data as $company)
+			{
+				$CompanyArray[$company["id"]] = $company["company_name"];
+			}
+			
 			$this->data['company'] = [
 				'name' => 'company',
-				'id' => 'company',
-				'type' => 'text',
-				'class' => 'form-control form-control-user',
-				'value' => $this->form_validation->set_value('company'),
+				'id'   => 'company',
+				'data' => $CompanyArray,
 			];
 			$this->data['phone'] = [
 				'name' => 'phone',
@@ -218,7 +226,7 @@ class Users extends CI_Controller {
 		$this->form_validation->set_rules('first_name', $this->lang->line('edit_user_validation_fname_label'), 'trim|required');
 		$this->form_validation->set_rules('last_name', $this->lang->line('edit_user_validation_lname_label'), 'trim|required');
 		$this->form_validation->set_rules('phone', $this->lang->line('edit_user_validation_phone_label'), 'trim');
-		$this->form_validation->set_rules('company', $this->lang->line('edit_user_validation_company_label'), 'trim');
+		$this->form_validation->set_rules('company', $this->lang->line('edit_user_validation_company_label'), 'trim|required');
 		$this->form_validation->set_rules('active', $this->lang->line('edit_user_validation_active_label'), 'trim|required');
 		
 		if (isset($_POST) && !empty($_POST))
@@ -324,12 +332,19 @@ class Users extends CI_Controller {
 			'class' => 'form-control form-control-user',
 			'value' => $this->form_validation->set_value('email', $user->email),
 		];
+		$company_data = $this->companies_model->get_companies(false, 'company_name');
+		$CompanyArray = array();
+		foreach ($company_data as $company)
+		{
+			$CompanyArray[$company["id"]] = $company["company_name"];
+		}
+		$CompanyArray[NULL] = NULL;
+		
 		$this->data['company'] = [
-			'name'  => 'company',
-			'id'    => 'company',
-			'type'  => 'text',
-			'class' => 'form-control form-control-user',
-			'value' => $this->form_validation->set_value('company', $user->company),
+			'name' => 'company',
+			'id'   => 'company',
+			'data' => $CompanyArray,
+			'value' => $user->company,
 		];
 		$this->data['phone'] = [
 			'name'  => 'phone',

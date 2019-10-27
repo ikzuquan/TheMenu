@@ -31,7 +31,7 @@
       
       <p>
             Company Address <br />
-            <?php echo form_input($address);?>
+            <?php echo form_textarea($address);?>
       </p>
 
       <p>

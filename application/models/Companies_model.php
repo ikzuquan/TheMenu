@@ -6,14 +6,15 @@ class Companies_model extends CI_Model {
                 $this->load->database();
         }
 
-        public function get_companies($id = FALSE)
+        public function get_companies($id = FALSE, $orderby = 'id')
         {
             if ($id === FALSE)
             {
+                    $this->db->order_by($orderby.' ASC');
                     $query = $this->db->get('companies');
                     return $query->result_array();
             }
-
+            $this->db->order_by($orderby.' ASC');
             $query = $this->db->get_where('companies', array('id' => $id));
             return (object) $query->row_array();
         }

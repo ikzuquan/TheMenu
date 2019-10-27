@@ -52,7 +52,7 @@
 							<td><?php echo htmlspecialchars($user->first_name,ENT_QUOTES,'UTF-8');?></td>
 							<td><?php echo htmlspecialchars($user->last_name,ENT_QUOTES,'UTF-8');?></td>
               <td><?php echo htmlspecialchars($user->email,ENT_QUOTES,'UTF-8');?></td>
-              <td><?php echo htmlspecialchars($user->company,ENT_QUOTES,'UTF-8');?></td>
+              <td><?php echo empty($user->company->company_name) ? '' : htmlspecialchars($user->company->company_name,ENT_QUOTES,'UTF-8'); ?></td>
               <td><?php echo ($user->active) ? lang('index_active_link') : lang('index_inactive_link');?></td>
 							<td>
 								<?php foreach ($user->groups as $group):?>

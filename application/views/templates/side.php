@@ -49,6 +49,16 @@
       </li>
 
       <!-- Divider -->
+      <hr class="sidebar-divider my-0">
+
+      <!-- Nav Item - Tables -->
+      <li class="nav-item <?php echo ($page == "softwares") ? "active": ""; ?>">
+        <a class="nav-link" href="<?php echo base_url() ?>softwares">
+          <i class="fas fa-fw fa-file-code"></i>
+          <span>Softwares</span></a>
+      </li>
+
+      <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block">
 
       <!-- Sidebar Toggler (Sidebar) -->

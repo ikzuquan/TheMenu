@@ -57,6 +57,7 @@ $route['default_controller'] = 'pages/view';*/
 $route['default_controller'] = 'auth';
 $route['users'] = 'users';
 $route['companies'] = 'companies';
+$route['softwares'] = 'softwares';
 $route['devices'] = 'devices';
 $route['404_override'] = 'notfound';
 $route['translate_uri_dashes'] = FALSE;

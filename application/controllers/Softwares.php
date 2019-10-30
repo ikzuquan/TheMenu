@@ -124,7 +124,7 @@ class Softwares extends CI_Controller {
 				'class' => 'form-control form-control-user',
 				'value' => $this->form_validation->set_value('filename'),
 				'required'=>'yes'
-			];
+			]; 
 			$this->data['version'] = [
 				'name' => 'version',
 				'id' => 'version',

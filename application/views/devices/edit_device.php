@@ -29,7 +29,7 @@
       </p>
       <p>
             Installation Address <br />
-            <?php echo form_textarea($installation_address);?>
+            <?php echo form_input($installation_address);?>
       </p>
 
       <p>

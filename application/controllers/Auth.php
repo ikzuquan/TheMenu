@@ -34,8 +34,14 @@ class Auth extends CI_Controller
 		}
 		else if (!$this->ion_auth->is_admin()) // remove this elseif if you want to enable this for non-admins
 		{
-			// redirect them to the home page because they must be an administrator to view this
-			show_error('You must be an administrator to view this page.');
+			$this->data['title'] = "Admin";
+			$this->data['page'] = "userindex";
+				
+			$this->load->view('templates' . DIRECTORY_SEPARATOR . 'header', $this->data);
+			$this->load->view('templates' . DIRECTORY_SEPARATOR . 'user_side', $this->data);
+			$this->load->view('dashboard' . DIRECTORY_SEPARATOR . 'user', $this->data);
+			$this->load->view('templates' . DIRECTORY_SEPARATOR . 'adminfooter', $this->data);
+			$this->load->view('templates' . DIRECTORY_SEPARATOR . 'footer', $this->data);
 		}
 		else
 		{
@@ -59,9 +65,10 @@ class Auth extends CI_Controller
 			
 			$this->load->view('templates' . DIRECTORY_SEPARATOR . 'header', $this->data);
 			$this->load->view('templates' . DIRECTORY_SEPARATOR . 'side', $this->data);
-			$this->load->view('pages' . DIRECTORY_SEPARATOR . 'home', $this->data);
+			$this->load->view('dashboard' . DIRECTORY_SEPARATOR . 'master', $this->data);
 			$this->load->view('templates' . DIRECTORY_SEPARATOR . 'adminfooter', $this->data);
-            $this->load->view('templates' . DIRECTORY_SEPARATOR . 'footer', $this->data);
+			$this->load->view('templates' . DIRECTORY_SEPARATOR . 'footer', $this->data);
+			
 		}
 	}
 

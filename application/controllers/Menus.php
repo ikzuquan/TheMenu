@@ -60,6 +60,34 @@ class Menus extends CI_Controller {
         $this->load->view('templates' . DIRECTORY_SEPARATOR . 'footer', $this->data);
 	}
 
+	public function change_order($device_id){
+		$user = $this->ion_auth->user()->row();
+		//check if the device is own by the user or device not found
+		$this->data['device'] = $this->devices_model->get_devices($device_id);
+		if(empty($this->data['device']->company_id)){
+			echo 0;
+			die();
+		} else if($this->data['device']->company_id != $user->company) {
+			echo 0;
+			die();
+		}
+		if (empty($this->input->post('from'))||empty($this->input->post('to')))
+		{
+			echo 0;
+			die();
+		}
+		$from = (int) $this->input->post('from');
+		$to = (int) $this->input->post('to');
+		if($this->menus_model->change_menu_order($from, $to, $device_id)){
+			echo 1;
+			die();
+		} else {
+			echo 0;
+			die();
+		}
+		
+	}
+
 	public function edit_menu($device_id)
 	{
 		$user = $this->ion_auth->user()->row();
@@ -104,6 +132,9 @@ class Menus extends CI_Controller {
 		$error = '';
 		
 		$count = count($_FILES['filename']['name']);
+
+		$max_rank = $this->menus_model->get_max_order_rank($device_id) + 1;
+
 		for($i=0;$i<$count;$i++){
 			
 		  if(!empty($_FILES['filename']['name'][$i])){
@@ -127,11 +158,19 @@ class Menus extends CI_Controller {
 			$this->load->library('upload',$config); 
 			
 			if($this->upload->do_upload('file')){
-			  $uploadData = $this->upload->data();
-	 
-			  $data['uploadsuccessdata'][] = $uploadData;
-			  
-			  
+			  $filedata = $this->upload->data();
+			  $data = array(
+				'filename' => $filedata["file_name"],
+				'client_name' => $filedata["client_name"],
+				'file_size' => $filedata["file_size"]*1000,
+				'image_type' => $filedata["image_type"],
+				'image_size_str' => $filedata["image_size_str"],
+				'device_id' => $this->input->post('id'),
+				'order_rank' => $max_rank+$i
+				);
+				if(!$this->menus_model->set_menus($data)){
+					show_error("Invalid Request");
+				} 
 			} else {
 				
 				$error = $this->upload->display_errors();
@@ -142,7 +181,6 @@ class Menus extends CI_Controller {
 	 
 		}
 		$this->session->set_flashdata('message', "Software Created Successfully");
-		
 		redirect("menus/edit_menu/".$this->input->post('id'), 'refresh');
 	 }
 

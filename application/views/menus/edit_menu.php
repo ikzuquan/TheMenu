@@ -1,6 +1,6 @@
   <!-- Custom styles for this page -->
   <link href="<?php echo site_url('public/vendor/datatables/dataTables.bootstrap4.min.css'); ?>" rel="stylesheet">
-  
+  <link href="https://cdn.datatables.net/rowreorder/1.2.6/css/rowReorder.dataTables.min.css" rel="stylesheet">
 
 <!-- Begin Page Content -->
 <div class="container-fluid">
@@ -62,10 +62,10 @@
             </div>
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-striped table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-striped table-bordered display" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
-                      <th>Order ID</th>
+                      <th >Order ID</th>
                       <th>File name</th>
                       <th>Created date</th>
                       <th>Action</th>
@@ -82,8 +82,8 @@
                   <tbody>
 				  <?php foreach ($menus as $menu):?>
 						<tr>
-              <td><?php echo htmlspecialchars($menu["order_id"],ENT_QUOTES,'UTF-8');?></td>
-							<td><?php echo htmlspecialchars($menu["filename"],ENT_QUOTES,'UTF-8');?></td>
+              <td><?php echo htmlspecialchars($menu["order_rank"],ENT_QUOTES,'UTF-8');?></td>
+							<td><a href="#myImage" onclick='popImage("<?php echo htmlspecialchars($menu["filename"],ENT_QUOTES,'UTF-8'); ?>")'><?php echo htmlspecialchars($menu["client_name"],ENT_QUOTES,'UTF-8');?></a></td>
 							<td><?php echo htmlspecialchars($menu["timestamp"],ENT_QUOTES,'UTF-8');?></td>
 							<td><?php echo anchor("menus/delete_menu/".$menu["id"], 'Delete  Menu') ;?></td>
 						</tr>
@@ -96,9 +96,20 @@
           </div>
 	</div>
 </div>
-  <!-- Page level plugins -->
+  <!-- Page level plugins-->
   <script src="<?php echo site_url('public/vendor/datatables/jquery.dataTables.min.js'); ?>"></script>
-  <script src="<?php echo site_url('public/vendor/datatables/dataTables.bootstrap4.min.js'); ?>"></script>
+  <script src="<?php echo site_url('public/vendor/datatables/dataTables.bootstrap4.min.js'); ?>"></script> 
 
+  <script src="https://cdn.datatables.net/rowreorder/1.2.6/js/dataTables.rowReorder.min.js"></script>
   <!-- Page level custom scripts -->
-  <script src="<?php echo site_url('public/js/demo/datatables-demo.js'); ?>"></script>
+  <script src="<?php echo site_url('public/js/demo/datatables-demo.js?v=5'); ?>"></script>
+
+  <div id="myImage" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-body">
+            <img id="ImagePlaceholder" src="//placehold.it/1000x600" class="img-fluid">
+        </div>
+    </div>
+  </div>
+</div>

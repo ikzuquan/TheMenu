@@ -88,6 +88,33 @@ class Menus extends CI_Controller {
 		
 	}
 
+	public function remove_order($device_id){
+		$user = $this->ion_auth->user()->row();
+		//check if the device is own by the user or device not found
+		$this->data['device'] = $this->devices_model->get_devices($device_id);
+		if(empty($this->data['device']->company_id)){
+			echo 0;
+			die();
+		} else if($this->data['device']->company_id != $user->company) {
+			echo 0;
+			die();
+		}
+		if (empty($this->input->post('order')))
+		{
+			echo 0;
+			die();
+		}
+		$order = (int) $this->input->post('order');
+		if($this->menus_model->remove_order($order, $device_id)){
+			echo 1;
+			die();
+		} else {
+			echo 0;
+			die();
+		}
+		
+	}
+
 	public function edit_menu($device_id)
 	{
 		$user = $this->ion_auth->user()->row();

@@ -81,11 +81,11 @@
                   </tfoot>
                   <tbody>
 				  <?php foreach ($menus as $menu):?>
-						<tr>
+						<tr id="<?php echo htmlspecialchars($menu["order_rank"],ENT_QUOTES,'UTF-8');?>">
               <td><?php echo htmlspecialchars($menu["order_rank"],ENT_QUOTES,'UTF-8');?></td>
 							<td><a href="#myImage" onclick='popImage("<?php echo htmlspecialchars($menu["filename"],ENT_QUOTES,'UTF-8'); ?>")'><?php echo htmlspecialchars($menu["client_name"],ENT_QUOTES,'UTF-8');?></a></td>
 							<td><?php echo htmlspecialchars($menu["timestamp"],ENT_QUOTES,'UTF-8');?></td>
-							<td><?php echo anchor("menus/delete_menu/".$menu["id"], 'Delete  Menu') ;?></td>
+							<td><button class="btn btn-danger">Delete</button></td>
 						</tr>
 					<?php endforeach;?>
 
@@ -101,6 +101,8 @@
   <script src="<?php echo site_url('public/vendor/datatables/dataTables.bootstrap4.min.js'); ?>"></script> 
 
   <script src="https://cdn.datatables.net/rowreorder/1.2.6/js/dataTables.rowReorder.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.3.2/bootbox.min.js"></script>
+  
   <!-- Page level custom scripts -->
   <script src="<?php echo site_url('public/js/demo/datatables-demo.js?v=5'); ?>"></script>
 
@@ -108,7 +110,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
         <div class="modal-body">
-            <img id="ImagePlaceholder" src="//placehold.it/1000x600" class="img-fluid">
+            <img id="ImagePlaceholder" src="" class="img-fluid">
         </div>
     </div>
   </div>

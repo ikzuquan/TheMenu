@@ -15,13 +15,13 @@ class Menus_model extends CI_Model {
                     return $query->result_array();
             }
             $this->db->order_by($orderby.' ASC');
-            $query = $this->db->get_where('devices', array('id' => $id));
+            $query = $this->db->get_where('devices', array('id' => $id, 'active' => 1));
             return (object) $query->row_array();
         }
 
         public function get_menus_bydevice($device_id)
         {
-            $query = $this->db->get_where('menus', array('device_id' => $device_id));
+            $query = $this->db->get_where('menus', array('device_id' => $device_id, 'active' => 1));
             return (object) $query->result_array();
         }
 
@@ -29,6 +29,7 @@ class Menus_model extends CI_Model {
         {
             $this->db->select_max('order_rank');
             $this->db->where('device_id', $device_id);
+            $this->db->where('active', 1);
             $res1 = $this->db->get('menus');
 
             if ($res1->num_rows() > 0)
@@ -70,6 +71,24 @@ class Menus_model extends CI_Model {
                     }
                 }
                 
+            } else {
+                return false;
+            }
+        }
+
+        public function remove_order($order, $device_id)
+        {
+            $this->db->where('device_id', $device_id);
+            $this ->db->where('order_rank', $order);
+            $sql = "UPDATE menus set order_rank = 0, active=0 where order_rank = $order and device_id =$device_id";
+
+            if($this->db->query($sql)){
+                $sql = "UPDATE menus set order_rank = order_rank-1 where order_rank > $order";
+                if($this->db->query($sql)){
+                    return true;
+                } else {
+                    return false;
+                }
             } else {
                 return false;
             }

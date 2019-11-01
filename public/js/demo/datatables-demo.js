@@ -17,7 +17,53 @@ $(document).ready(function() {
       }
       
   } );
+  selected = "";
+  $('#dataTable').on("click", "button", function(){
+    //console.log($(this).parent());
+    selected = $(this).parents('tr');
+    bootbox.confirm({
+        message: "Do you want to delete this menu?",
+        buttons: {
+            
+            cancel: {
+                label: 'No',
+                className: 'btn-light'
+            },
+            confirm: {
+              label: 'Yes',
+              className: 'btn-danger'
+          }
+        },
+        callback: function (result) {
+            if(result){
+              console.log('This was logged in the callback: ' + result);
+              table.row(selected).remove().draw(false);
+              console.log(selected.attr('id'));
+              $.ajax({
+                  type  : 'POST',
+                  url   : '../../menus/remove_order/'+$('input[name=id]').val(),
+                  data: ({ "order" : selected.attr('id') }),
+                  async : true,
+                  dataType : 'text',
+                  success : function(data){
+                      if(data){
+                       location.reload();
+                      } else {
+                        alert("Failed to sort the menu, please try again later...");
+                        location.reload();
+                      }
+                  }
+          
+              });
+            }
+            
+        }
+    });
+    
+  });
 });
+
+
 
 function increase_order(from, to){
   $.ajax({

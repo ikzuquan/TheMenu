@@ -77,7 +77,7 @@ class Softwares extends CI_Controller {
 			
 			// check to see if we are creating the user
 			// redirect them back to the admin page
-			$config['upload_path']          = './uploads/';
+			$config['upload_path']          = './uploads/Softwares/';
 			$config['allowed_types']          = '*';
 			$config['overwrite']        = FALSE;
 			$config['encrypt_name']     = TRUE;

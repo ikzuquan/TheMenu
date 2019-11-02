@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Menus extends CI_Controller {
+class Signages extends CI_Controller {
 
 	/**
 	 * Index Page for this controller.
@@ -27,7 +27,7 @@ class Menus extends CI_Controller {
 		$this->load->helper(['url', 'language']);
 		$this->load->model('devices_model');
 		$this->load->model('companies_model');
-		$this->load->model('menus_model');
+		$this->load->model('signages_model');
 
 		$this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
 
@@ -44,10 +44,10 @@ class Menus extends CI_Controller {
 	public function index()
 	{
 		$user = $this->ion_auth->user()->row();
-		$this->data['page'] = "menus";
+		$this->data['page'] = "signages";
 		$this->data['message'] = $this->session->flashdata('message');
 		$this->data['error'] = $this->session->flashdata('error');
-		$this->data['title'] = "Menus";
+		$this->data['title'] = "signages";
 
 		//list the users
 		
@@ -55,7 +55,7 @@ class Menus extends CI_Controller {
 			
         $this->load->view('templates' . DIRECTORY_SEPARATOR . 'header', $this->data);
         $this->load->view('templates' . DIRECTORY_SEPARATOR . 'user_side', $this->data);
-        $this->load->view('menus'. DIRECTORY_SEPARATOR . 'index', $this->data);
+        $this->load->view('signages'. DIRECTORY_SEPARATOR . 'index', $this->data);
         $this->load->view('templates' . DIRECTORY_SEPARATOR . 'adminfooter', $this->data);
         $this->load->view('templates' . DIRECTORY_SEPARATOR . 'footer', $this->data);
 	}
@@ -78,7 +78,7 @@ class Menus extends CI_Controller {
 		}
 		$from = (int) $this->input->post('from');
 		$to = (int) $this->input->post('to');
-		if($this->menus_model->change_menu_order($from, $to, $device_id)){
+		if($this->signages_model->change_signage_order($from, $to, $device_id)){
 			echo 1;
 			die();
 		} else {
@@ -105,7 +105,7 @@ class Menus extends CI_Controller {
 			die();
 		}
 		$order = (int) $this->input->post('order');
-		if($this->menus_model->remove_order($order, $device_id)){
+		if($this->signages_model->remove_order($order, $device_id)){
 			echo 1;
 			die();
 		} else {
@@ -115,14 +115,14 @@ class Menus extends CI_Controller {
 		
 	}
 
-	public function edit_menu($device_id)
+	public function edit_signage($device_id)
 	{
 		$user = $this->ion_auth->user()->row();
-		$this->data['page'] = "menus";
+		$this->data['page'] = "signages";
 		$this->data['device_id'] = $device_id;
 		$this->data['message'] = $this->session->flashdata('message');
 		$this->data['error'] = $this->session->flashdata('error');
-		$this->data['title'] = "Menus";
+		$this->data['title'] = "signages";
 		
 		//check if the device is own by the user or device not found
 		$this->data['device'] = $this->devices_model->get_devices($device_id);
@@ -131,17 +131,46 @@ class Menus extends CI_Controller {
 		} else if($this->data['device']->company_id != $user->company) {
 			show_error("Invalid Request");
 		}
-		//get menus based on device
-		$this->data['menus'] = $this->menus_model->get_menus_bydevice($this->data['device']->id);
+		//get signages based on device
+		$this->data['signages'] = $this->signages_model->get_signages_bydevice($this->data['device']->id);
 			
         $this->load->view('templates' . DIRECTORY_SEPARATOR . 'header', $this->data);
         $this->load->view('templates' . DIRECTORY_SEPARATOR . 'user_side', $this->data);
-        $this->load->view('menus'. DIRECTORY_SEPARATOR . 'edit_menu', $this->data);
+        $this->load->view('signages'. DIRECTORY_SEPARATOR . 'edit_signage', $this->data);
         $this->load->view('templates' . DIRECTORY_SEPARATOR . 'adminfooter', $this->data);
         $this->load->view('templates' . DIRECTORY_SEPARATOR . 'footer', $this->data);
 	}
 
-	public function upload_menu($device_id) { 
+	public function update_time($device_id)
+	{
+		$user = $this->ion_auth->user()->row();
+		//check if the device is own by the user or device not found
+		$this->data['device'] = $this->devices_model->get_devices($device_id);
+		if(empty($this->data['device']->company_id)){
+			show_error("Invalid Request");
+		} else if($this->data['device']->company_id != $user->company) {
+			show_error("Invalid Request");
+		}
+		if (empty($this->input->post('update_start_time'))||empty($this->input->post('update_end_time'))||empty($this->input->post('update_time_order')))
+		{
+			show_error("Invalid Request");
+		}
+		$order = (int) $this->input->post('update_time_order');
+		$start_time = $this->input->post('update_start_time');
+		$end_time = $this->input->post('update_end_time');
+		if($this->signages_model->update_time($order, $device_id,$start_time,$end_time)){
+			$message = "Time updated successfully";
+			$this->session->set_flashdata('message', $message);
+			redirect("signages/edit_signage/".$device_id, 'refresh');
+		} else {
+			$error = "Unable to update the time, please try again later";
+			$this->session->set_flashdata('error', $error);
+			redirect("signages/edit_signage/".$device_id, 'refresh');
+		}
+
+	}
+
+	public function upload_signage($device_id) { 
 		$user = $this->ion_auth->user()->row();
 		//check if the device is own by the user or device not found
 		$this->data['device'] = $this->devices_model->get_devices($device_id);
@@ -160,9 +189,11 @@ class Menus extends CI_Controller {
 		
 		$count = count($_FILES['filename']['name']);
 
-		$max_rank = $this->menus_model->get_max_order_rank($device_id) + 1;
+        $max_rank = $this->signages_model->get_max_order_rank($device_id) + 1;
+
 
 		for($i=0;$i<$count;$i++){
+
 			
 		  if(!empty($_FILES['filename']['name'][$i])){
 			
@@ -172,15 +203,11 @@ class Menus extends CI_Controller {
 			$_FILES['file']['error'] = $_FILES['filename']['error'][$i];
 			$_FILES['file']['size'] = $_FILES['filename']['size'][$i];
 			
-			$config['upload_path'] = './uploads/menus'; 
-			$config['allowed_types'] = 'jpg|jpeg|png';
-			$config['max_size'] = '5000';
+			$config['upload_path'] = './uploads/signages'; 
+			$config['allowed_types'] = 'jpg|jpeg|png|mp4';
+			$config['max_size'] = '50000';
 			$config['file_name'] = $_FILES['filename']['name'][$i];
 			$config['encrypt_name']     = TRUE;
-			$config['max_width']            = 1080;
-			$config['max_height']           = 1920;
-			$config['min_width']            = 1080;
-            $config['min_height']           = 1920;
 			
 			$this->load->library('upload',$config); 
 			
@@ -190,25 +217,23 @@ class Menus extends CI_Controller {
 				'filename' => $filedata["file_name"],
 				'client_name' => $filedata["client_name"],
 				'file_size' => $filedata["file_size"]*1000,
-				'image_type' => $filedata["file_type"],
-				'image_size_str' => $filedata["image_size_str"],
+				'file_type' => $filedata["file_type"],
 				'device_id' => $this->input->post('id'),
 				'order_rank' => $max_rank+$i
 				);
-				if(!$this->menus_model->set_menus($data)){
+				if(!$this->signages_model->set_signages($data)){
 					show_error("Invalid Request");
 				} 
 			} else {
-				
 				$error = $this->upload->display_errors();
 				$this->session->set_flashdata('error', $error);
-				redirect("menus/edit_menu/".$this->input->post('id'), 'refresh');
+				redirect("signages/edit_signage/".$this->input->post('id'), 'refresh');
 			}
 		  }
 	 
 		}
 		$this->session->set_flashdata('message', "Software Created Successfully");
-		redirect("menus/edit_menu/".$this->input->post('id'), 'refresh');
+		redirect("signages/edit_signage/".$this->input->post('id'), 'refresh');
 	 }
 
 

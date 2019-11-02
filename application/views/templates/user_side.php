@@ -41,22 +41,22 @@
           <span>Signages</span></a>
       </li>
 
-      <!-- Nav Item - Tables -->
+      <!-- Nav Item - Tables
       <li class="nav-item <?php echo ($page == "profile") ? "active": ""; ?>">
         <a class="nav-link" href="<?php echo base_url() ?>profile">
           <i class="fas fa-fw fa-id-badge"></i>
           <span>Profile</span></a>
-      </li>
+      </li> -->
 
-      <!-- Divider -->
-      <hr class="sidebar-divider my-0">
+      <!-- Divider
+      <hr class="sidebar-divider my-0"> -->
 
-      <!-- Nav Item - Tables -->
+      <!-- Nav Item - Tables
       <li class="nav-item <?php echo ($page == "help") ? "active": ""; ?>">
         <a class="nav-link" href="<?php echo base_url() ?>help">
           <i class="fas fa-fw fa-question-circle"></i>
           <span>Help</span></a>
-      </li>
+      </li> -->
 
       <!-- Sidebar Toggler (Sidebar) -->
       <div class="text-center d-none d-md-inline">

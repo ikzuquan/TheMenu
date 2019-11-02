@@ -59,6 +59,7 @@ $route['users'] = 'users';
 $route['companies'] = 'companies';
 $route['softwares'] = 'softwares';
 $route['menus'] = 'menus';
+$route['signages'] = 'signages';
 $route['devices'] = 'devices';
 $route['menus/edit/(:any)'] = 'menus/edit/$1';
 $route['404_override'] = 'notfound';

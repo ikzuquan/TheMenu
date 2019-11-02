@@ -201,11 +201,16 @@ class Auth extends CI_Controller
 				'type' => 'hidden',
 				'value' => $user->id,
 			];
-
+			$this->data['page'] = "auth";
 			// render
 
 			$this->_render_page('templates' . DIRECTORY_SEPARATOR . 'header', $this->data);
-			$this->_render_page('templates' . DIRECTORY_SEPARATOR . 'side', $this->data);
+			
+			if($this->ion_auth->is_admin()){
+				$this->_render_page('templates' . DIRECTORY_SEPARATOR . 'side', $this->data);
+			} else {
+				$this->_render_page('templates' . DIRECTORY_SEPARATOR . 'user_side', $this->data);
+			}
 			$this->_render_page('auth' . DIRECTORY_SEPARATOR . 'change_password', $this->data);
 			$this->_render_page('templates' . DIRECTORY_SEPARATOR . 'adminfooter', $this->data);
             $this->_render_page('templates' . DIRECTORY_SEPARATOR . 'footer', $this->data);

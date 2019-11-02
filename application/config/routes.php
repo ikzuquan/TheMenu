@@ -56,6 +56,7 @@ $route['(:any)'] = 'pages/view/$1';
 $route['default_controller'] = 'pages/view';*/
 $route['default_controller'] = 'auth';
 $route['users'] = 'users';
+$route['api/(:any)'] = 'kiosk/test/$1';
 $route['companies'] = 'companies';
 $route['softwares'] = 'softwares';
 $route['menus'] = 'menus';

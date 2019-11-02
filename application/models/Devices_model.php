@@ -19,6 +19,12 @@ class Devices_model extends CI_Model {
             return (object) $query->row_array();
         }
 
+        public function get_device($mac_address)
+        {
+            $query = $this->db->get_where('devices', array('mac_address' => $mac_address, 'active' => 1));
+            return (object) $query->row_array();
+        }
+
         public function get_devices_bycompany($company_id)
         {
             $query = $this->db->get_where('devices', array('company_id' => $company_id));
